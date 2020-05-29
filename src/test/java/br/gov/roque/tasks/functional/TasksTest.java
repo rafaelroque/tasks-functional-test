@@ -1,23 +1,34 @@
 package br.gov.roque.tasks.functional;
 
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import junit.framework.Assert;
 
 public class TasksTest {
 	
-	@Test
-	public void deveSalvarTarefa() {
-		WebDriver driver = new ChromeDriver();
-		driver.navigate().to("http://localhost:8080/tasks/");
+	public WebDriver acessarAplicacao() throws MalformedURLException {
+		DesiredCapabilities cap = DesiredCapabilities.chrome();
+		WebDriver driver = new RemoteWebDriver(new URL("http://192.168.0.3:4444/wd/hub") , cap);
+		driver.navigate().to("http://192.168.0.3:8080/tasks/");
 		
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		
+		return driver;
+	}
+	
+	@Test
+	public void deveSalvarTarefa() throws MalformedURLException {
+		
+		WebDriver driver = acessarAplicacao();
 		
 		//Clicar botáo add
 		driver.findElement(By.id("addTodo")).click();
@@ -41,12 +52,8 @@ public class TasksTest {
 	}
 	
 	@Test
-	public void deveApresentarErroData() {
-		WebDriver driver = new ChromeDriver();
-		driver.navigate().to("http://localhost:8080/tasks/");
-		
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		
+	public void deveApresentarErroData() throws MalformedURLException {
+		WebDriver driver = acessarAplicacao();
 		//Clicar botáo add
 		driver.findElement(By.id("addTodo")).click();
 		
