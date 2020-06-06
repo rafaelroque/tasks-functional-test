@@ -30,7 +30,7 @@ public class TasksTest {
 		
 		//
 		
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
 		return driver;
 	}
